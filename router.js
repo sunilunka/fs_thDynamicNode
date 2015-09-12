@@ -8,12 +8,14 @@
 
 */
 var Profile = require('./profile.js');
+var renderer = require('./renderer.js');
 
 
 
 function home(request, response){
-    response.writeHead(200, {'Content-Type': 'text/plain'});
     if(request.url === "/"){
+      response.writeHead(200, {'Content-Type': 'text/plain'});
+      renderer.view("header", {});
       response.write("Header\n");
       response.write("Search\n");
       response.end("Footer\n");
@@ -29,9 +31,10 @@ function home(request, response){
 */
 
 function user(request, response){
-  response.writeHead(200, {'Content-Type': 'text/plain'});
+
   var username = request.url.replace("/", "");
   if(username.length > 0){
+    response.writeHead(200, {'Content-Type': 'text/plain'});
     response.write("Header\n");
     // => get JSON from Treehouse:
     var studentProfile = new Profile(username);
