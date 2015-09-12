@@ -43,13 +43,14 @@ function user(request, response){
     studentProfile.on("end", function(profileJSON){
       // Store the values that we need
       var values = {
-        avatarURL: profileJSON.gravatarURL,
+        avatarUrl: profileJSON.gravatarURL,
         username: profileJSON.profile_name,
         badges: profileJSON.badges.length,
         javascriptPoints: profileJSON.points.JavaScript
       };
 
       // Simple response
+      console.log(values);
       renderer.view("header", {}, values, response);
       renderer.view("profile", values, response);
       renderer.view("footer", {}, response);      
@@ -62,6 +63,7 @@ function user(request, response){
     //  >> on ERROR, show error
     studentProfile.on("error", function(error){
       // show error
+      renderer.view("header", {}, response);
       renderer.view("error", { errorMessage: error.message }, response);
       renderer.view("search", {}, response);
       renderer.view("footer", {}, response);
