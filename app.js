@@ -7,12 +7,9 @@
 var http = require('http');
 
 http.createServer(function (request, response) {
-  response.writeHead(200, {'Content-Type': 'text/plain'});
-  setInterval(function(){
-    response.write(new Date() + "\n");
-  }, 1000);
-  // response.end('Hello World\n');
-  // response.write('This is after the end \n');
+
+  homeRoute(request, response);
+
 }).listen(1337, "127.0.0.1");
 
 console.log('Server running at http://127.0.0.1:1337/');
@@ -26,6 +23,13 @@ console.log('Server running at http://127.0.0.1:1337/');
 
 
 */
+
+function homeRoute(request, response){
+    response.writeHead(200, {'Content-Type': 'text/plain'});
+    response.write("Header\n");
+    response.write("Search\n");
+    response.end("Footer\n");
+}
 
 /* 3. Handle HTTP route GET /:username (parameter) i.e. /sunilunka
   if url == "/..."
