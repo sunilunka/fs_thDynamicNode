@@ -7,6 +7,9 @@
 
 
 */
+var profile = require('./profile.js');
+
+
 
 function home(request, response){
     response.writeHead(200, {'Content-Type': 'text/plain'});
@@ -30,7 +33,13 @@ function user(request, response){
   var username = request.url.replace("/", "");
   if(username.length > 0){
     response.write("Header\n");
-    response.write("Search\n");
+    
+    var studentProfile = new Profile(username);
+
+    studentProfile.on("end", console.dir);
+
+    studentProfile.on("error", console.error);
+
     response.end("Footer\n");
   }
 };
