@@ -15,10 +15,10 @@ var renderer = require('./renderer.js');
 function home(request, response){
     if(request.url === "/"){
       response.writeHead(200, {'Content-Type': 'text/plain'});
-      renderer.view("header", {});
-      response.write("Header\n");
-      response.write("Search\n");
-      response.end("Footer\n");
+      renderer.view("header", {}, response);
+      renderer.view("search", {}, response);
+      renderer.view("footer", {}, response);
+      response.end();
     };
 };
 
@@ -35,7 +35,7 @@ function user(request, response){
   var username = request.url.replace("/", "");
   if(username.length > 0){
     response.writeHead(200, {'Content-Type': 'text/plain'});
-    response.write("Header\n");
+    
     // => get JSON from Treehouse:
     var studentProfile = new Profile(username);
 
@@ -50,9 +50,10 @@ function user(request, response){
       };
 
       // Simple response
-
-      response.write(values.username + " has " + values.badges + " badges.\n");
-      response.end("Footer\n");
+      renderer.view("header", {}, values, response);
+      renderer.view("profile", values, response);
+      renderer.view("footer", {}, response);      
+      response.end();
 
     });
 
@@ -61,8 +62,10 @@ function user(request, response){
     //  >> on ERROR, show error
     studentProfile.on("error", function(error){
       // show error
-      response.write(error.message + "\n");
-      response.end("Footer\n");
+      renderer.view("error", { errorMessage: error.message }, response);
+      renderer.view("search", {}, response);
+      renderer.view("footer", {}, response);
+      response.end();
     });
   }
 };
