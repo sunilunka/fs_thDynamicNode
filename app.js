@@ -26,10 +26,12 @@ console.log('Server running at http://127.0.0.1:1337/');
 
 function homeRoute(request, response){
     response.writeHead(200, {'Content-Type': 'text/plain'});
-    response.write("Header\n");
-    response.write("Search\n");
-    response.end("Footer\n");
-}
+    if(request.url === "/"){
+      response.write("Header\n");
+      response.write("Search\n");
+      response.end("Footer\n");
+    };
+};
 
 /* 3. Handle HTTP route GET /:username (parameter) i.e. /sunilunka
   if url == "/..."
