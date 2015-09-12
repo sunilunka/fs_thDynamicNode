@@ -9,24 +9,33 @@
 */
 var Profile = require('./profile.js');
 var renderer = require('./renderer.js');
+var querystring = require('querystring')
 var commonHeaders = {'Content-Type': 'text/html'}
 
 
 function home(request, response){
     if(request.url === "/"){
-      response.writeHead(200, commonHeaders);
-      renderer.view("header", {}, response);
-      renderer.view("search", {}, response);
-      renderer.view("footer", {}, response);
-      response.end();
+      if(request.method.toLowerCase() === "get"){
+        response.writeHead(200, commonHeaders);
+        renderer.view("header", {}, response);
+        renderer.view("search", {}, response);
+        renderer.view("footer", {}, response);
+        response.end();
+      } else {
+        // if URL is "/" and POST
+          // get post data from body, and then:
+          request.on("data", function(postBody){
+            var query = querystring.parse(postBody.toString());
+            response.writeHead(303, {"Location" : "/" + query.username});
+            response.end();
+          })
+            // redirect to /:username
+      }
     };
 };
 
 /* Handle HTTP route GET /:username (parameter) i.e. /sunilunka
   if url == "/..."
-
-
-     
 
 */
 
